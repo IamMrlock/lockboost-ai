@@ -1,5 +1,5 @@
 import streamlit as st
-from your_generate_module import generate  # remplace par le bon module si nécessaire
+from utils import generate  # remplace par le bon module si nécessaire
 
 st.title("LockBoost AI 🚀")
 
