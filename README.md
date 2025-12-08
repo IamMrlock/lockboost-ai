@@ -104,3 +104,7 @@ GitHub Issues: [link-to-issues]
 Discussions: [link-to-discussions]
 Streamlit Documentation: https://docs.streamlit.io
 :::
+
+## 📜 License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
