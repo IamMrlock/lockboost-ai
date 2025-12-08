@@ -26,21 +26,21 @@ Topic: {topic}
 Return output as a numbered list (1. 2. 3. ...).
 """
 
-def call_openai(prompt: str, model: str = "gpt-4o-mini") -> str:
+def call_openai(prompt: str, model: str = "gpt-4") -> str:
+    import openai
     try:
-        response = client.chat.completions.create(
+        response = openai.chat.completions.create(
             model=model,
             messages=[
                 {"role": "system", "content": "Tu es un assistant expert en création de contenu."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
-            max_tokens=500
+            max_tokens=800
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
         return f"Erreur lors de l'appel à OpenAI : {e}"
-
 
 def parse_to_dict(text: str):
     """Simple text parser to convert raw output into a list of idea dicts."""
@@ -83,23 +83,22 @@ def parse_to_dict(text: str):
     return ideas
 
 
-def generate(topic: str, platform: str, audience: str, tone: str, model: str = "gpt-4o-mini") -> str:
+# generate (post social media optimisé)
+def generate(topic: str, platform: str, audience: str, tone: str, model: str = "gpt-4") -> str:
     prompt = f"""
-    Tu es un expert en marketing digital et copywriting, spécialisé dans les contenus viraux pour réseaux sociaux.
+    Tu es un expert en marketing digital et copywriting spécialisé dans les contenus viraux.
 
-    🎯 Objectif : Créer un post engageant pour {platform} destiné à {audience}.
-
-    Ton du contenu : {tone}
+    Crée un post engageant pour {platform} destiné à {audience}.
+    Ton : {tone}
     Sujet : {topic}
 
-    🔹 Instructions :
-    - Rédige un texte captivant, facile à lire, qui retient l’attention.
-    - Si possible, ajoute un hook initial ou question pour inciter à l’interaction.
-    - Limite la longueur à 3-5 phrases pour Instagram et TikTok, 4-7 phrases pour LinkedIn.
-    - Évite le jargon inutile et reste authentique.
+    Instructions :
+    - Texte captivant et facile à lire
+    - Hook initial ou question pour inciter à l’interaction
+    - 3-5 phrases pour Instagram/TikTok, 4-7 phrases pour LinkedIn
+    - Authentique, pas de jargon inutile
 
-    💡 Format attendu :
-    Texte final prêt à poster, pas de préambule ni de titre.
+    Format attendu :
+    Texte final prêt à poster
     """
-
     return call_openai(prompt, model=model)
